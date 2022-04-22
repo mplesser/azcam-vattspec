@@ -1,0 +1,14 @@
+vattspec notes
+
+08Sep10
+
+amp 0 shows column structures.  Can be minimized by finishing par shift with only P2 high.
+
+using amp 1
+
+1.3 e/DN, 2000 dwell, gain 10, speed 1
+
+3.2 e noise in overscan
+3.5 in image area with optimized parallel clocks, unbinned.
+
+2.6 e/DN gain=5
