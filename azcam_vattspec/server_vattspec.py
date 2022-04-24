@@ -142,7 +142,7 @@ telescope = VattTCS()
 # ****************************************************************
 # system header template
 # ****************************************************************
-template = os.path.join(azcam.db.datafolder, "templates", "fits_template_master.txt")
+template = os.path.join(azcam.db.datafolder, "templates", "fits_template_vattspec_master.txt")
 system = System("vattspec", template)
 system.set_keyword("DEWAR", "vattspec_dewar", "Dewar name")
 
