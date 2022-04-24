@@ -110,7 +110,7 @@ if lab:
 else:
     exposure.send_image = 1
     exposure.folder = "/mnt/TBArray/images"
-    sendimage.set_remote_imageserver("vattcontrol.vatt", 6543, "dataserver")
+    sendimage.set_remote_imageserver("10.0.1.108", 6543, "dataserver")  # vattcontrol.vatt
 
 # ****************************************************************
 # detector
@@ -142,7 +142,7 @@ telescope = VattTCS()
 # ****************************************************************
 # system header template
 # ****************************************************************
-template = os.path.join(azcam.db.datafolder, "templates", "fits_template_vattspec_master.txt")
+template = os.path.join(azcam.db.datafolder, "templates", "fits_template_master.txt")
 system = System("vattspec", template)
 system.set_keyword("DEWAR", "vattspec_dewar", "Dewar name")
 
@@ -187,7 +187,7 @@ monitor.register()
 # GUIs
 # ****************************************************************
 if 1:
-    import azcam_vatt.common.start_azcamtool
+    import azcam_vattspec.start_azcamtool
 
 # ****************************************************************
 # finish

@@ -1,0 +1,12 @@
+OBSERVER J.Observer 			/ Observers
+INSTRUME VATTSpec			/ Instrument
+DISPAXIS 1				/ Dispersion axis
+DETNAME  sn8228				/ Detector identifier
+PIXSIZE1 15.0				/ Pixel size for axis 1 (microns)
+PIXSIZE2 15.0				/ Pixel size for axis 2 (microns)
+OBSERVAT MGIO     			/ Observatory
+TELESCOP VATT				/ Telescope
+TIMEZONE 7				/ Local Time Zone
+SITEELEV 3181				/ Altitude (meters)
+SITELAT  32:42:06			/ Latitude (degrees N)
+SITELONG 109:53:30			/ Longitude (degrees W)
