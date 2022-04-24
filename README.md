@@ -9,7 +9,7 @@ This repository contains the *azcam-vatt* *azcam* environment. It contains code 
 Azcam code is typically run directly from the installation folders to allow changes.
 
 ```
-git clone https://github.com/uaitl/azcam-vattspec
+git clone https://github.com/mplesser/azcam-vattspec
 pip install -r ./azcam-vattspec/requirements.txt
 ```
 

@@ -4,7 +4,6 @@ rich
 -e ./azcam
 -e ./azcam-arc
 -e ./azcam-ds9
--e ./azcam-expstatus
 -e ./azcam-fastapi
 -e ./azcam-focus
 -e ./azcam-imageserver
