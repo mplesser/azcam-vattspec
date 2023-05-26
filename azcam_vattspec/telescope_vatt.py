@@ -7,7 +7,7 @@ import time
 import re
 
 import azcam
-from azcam.system import System
+from azcam.header import System
 from azcam.tools.telescope import Telescope
 
 from .vatt_filter_code import vatt_filters
@@ -19,7 +19,6 @@ class VattTCS(Telescope):
     """
 
     def __init__(self, tool_id="telescope", description="VATT telescope"):
-
         super().__init__(tool_id, description)
 
         self.vfilters = vatt_filters()
@@ -280,7 +279,6 @@ class VattTCS(Telescope):
 
 
 class TelcomServerInterface(object):
-
     Host = ""
     Port = 0
     Socket = 0
@@ -523,6 +521,7 @@ class TelcomServerInterface(object):
 
         return List
 
+
 class vatt_filters:
     """Class to retrieve filter data from the
     redesigned guidebox at VATT."""
@@ -586,7 +585,6 @@ class vatt_filters:
             fdict = {tmatch[0]: tmatch[1], tmatch[2]: tmatch[3]}
 
         else:
-
             raise ValueError("Could not get filters from {}".format(resp))
 
         return fdict
