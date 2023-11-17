@@ -1,3 +1,7 @@
+"""
+azcamserver config for vattspec
+"""
+
 import os
 import sys
 
@@ -37,160 +41,186 @@ try:
 except ValueError:
     lab = 0
 
-# ****************************************************************
-# define folders for system
-# ****************************************************************
-azcam.db.systemname = "vattspec"
 
-azcam.db.servermode = "vattspec"
+def setup():
+    global option, datafolder, lab
 
-azcam.db.systemfolder = os.path.dirname(__file__)
-azcam.db.systemfolder = azcam.utils.fix_path(azcam.db.systemfolder)
+    # ****************************************************************
+    # define folders for system
+    # ****************************************************************
+    azcam.db.systemname = "vattspec"
 
-if datafolder is None:
-    droot = os.environ.get("AZCAM_DATAROOT")
-    if droot is None:
-        droot = "/data"
-    azcam.db.datafolder = os.path.join(droot, azcam.db.systemname)
-else:
-    azcam.db.datafolder = datafolder
-azcam.db.datafolder = azcam.utils.fix_path(azcam.db.datafolder)
+    azcam.db.servermode = "vattspec"
 
-parfile = os.path.join(
-    azcam.db.datafolder, "parameters", f"parameters_server_{azcam.db.systemname}.ini"
-)
+    azcam.db.systemfolder = os.path.dirname(__file__)
+    azcam.db.systemfolder = azcam.utils.fix_path(azcam.db.systemfolder)
 
-# ****************************************************************
-# enable logging
-# ****************************************************************
-logfile = os.path.join(azcam.db.datafolder, "logs", "server.log")
-azcam.db.logger.start_logging(logfile=logfile)
-azcam.log(f"Configuring for vattspec")
+    if datafolder is None:
+        droot = os.environ.get("AZCAM_DATAROOT")
+        if droot is None:
+            droot = "/data"
+        azcam.db.datafolder = os.path.join(droot, azcam.db.systemname)
+    else:
+        azcam.db.datafolder = datafolder
+    azcam.db.datafolder = azcam.utils.fix_path(azcam.db.datafolder)
 
-# ****************************************************************
-# controller
-# ****************************************************************
-controller = ControllerArc()
-controller.timing_board = "gen2"
-controller.clock_boards = ["gen2"]
-controller.video_boards = ["gen2"]
-controller.utility_board = "gen2"
-controller.set_boards()
-controller.pci_file = os.path.join(azcam.db.datafolder, "dspcode", "dsppci", "pci2.lod")
-controller.timing_file = os.path.join(azcam.db.datafolder, "dspcode", "dsptiming", "tim2.lod")
-controller.utility_file = os.path.join(azcam.db.datafolder, "dspcode", "dsputility", "util2.lod")
-controller.video_gain = 10
-controller.video_speed = 1
-if lab:
-    controller.camserver.set_server("conserver7", 2405)
-else:
-    controller.camserver.set_server("vattccdc", 2405)
+    parfile = os.path.join(
+        azcam.db.datafolder,
+        "parameters",
+        f"parameters_server_{azcam.db.systemname}.ini",
+    )
 
-# ****************************************************************
-# temperature controller
-# ****************************************************************
-tempcon = TempConArc()
-tempcon.set_calibrations([0, 0, 3])
-tempcon.set_corrections([2.0, 0.0, 0.0], [1.0, 1.0, 1.0])
-tempcon.temperature_correction = 0
-tempcon.control_temperature = -110.0
+    # ****************************************************************
+    # enable logging
+    # ****************************************************************
+    logfile = os.path.join(azcam.db.datafolder, "logs", "server.log")
+    azcam.db.logger.start_logging(logfile=logfile)
+    azcam.log(f"Configuring for vattspec")
 
-# ****************************************************************
-# exposure
-# ****************************************************************
-exposure = ExposureArc()
-filetype = "FITS"
-exposure.filetype = exposure.filetypes[filetype]
-exposure.image.filetype = exposure.filetypes[filetype]
-exposure.display_image = 0
-sendimage = SendImage()
-if lab:
-    exposure.send_image = 1
-    exposure.folder = "/data/vattspec"
-    sendimage.set_remote_imageserver()
-else:
-    exposure.send_image = 1
-    exposure.folder = "/mnt/TBArray/images"
-    sendimage.set_remote_imageserver("10.0.1.108", 6543, "dataserver")  # vattcontrol.vatt
+    # ****************************************************************
+    # controller
+    # ****************************************************************
+    controller = ControllerArc()
+    controller.timing_board = "gen2"
+    controller.clock_boards = ["gen2"]
+    controller.video_boards = ["gen2"]
+    controller.utility_board = "gen2"
+    controller.set_boards()
+    controller.pci_file = os.path.join(
+        azcam.db.datafolder, "dspcode", "dsppci", "pci2.lod"
+    )
+    controller.timing_file = os.path.join(
+        azcam.db.datafolder, "dspcode", "dsptiming", "tim2.lod"
+    )
+    controller.utility_file = os.path.join(
+        azcam.db.datafolder, "dspcode", "dsputility", "util2.lod"
+    )
+    controller.video_gain = 10
+    controller.video_speed = 1
+    if lab:
+        controller.camserver.set_server("conserver7", 2405)
+    else:
+        controller.camserver.set_server("vattccdc", 2405)
 
-# ****************************************************************
-# detector
-# ****************************************************************
-detector_vattspec = {
-    "name": "vattspec",
-    "description": "STA0520 2688x512 CCD",
-    "ref_pixel": [1344, 256],
-    "format": [2688, 16, 0, 20, 512, 0, 0, 0, 0],
-    "focalplane": [1, 1, 1, 1, "0"],
-    "roi": [1, 2688, 1, 512, 2, 2],
-    "ext_position": [[1, 1]],
-    "jpg_order": [1],
-}
-exposure.set_detpars(detector_vattspec)
-exposure.image.focalplane.wcs.ctype1 = "LINEAR"
-exposure.image.focalplane.wcs.ctype2 = "LINEAR"
+    # ****************************************************************
+    # temperature controller
+    # ****************************************************************
+    tempcon = TempConArc()
+    tempcon.set_calibrations([0, 0, 3])
+    tempcon.set_corrections([2.0, 0.0, 0.0], [1.0, 1.0, 1.0])
+    tempcon.temperature_correction = 0
+    tempcon.control_temperature = -110.0
 
-# ****************************************************************
-# instrument (not used)
-# ****************************************************************
-instrument = Instrument()
+    # ****************************************************************
+    # exposure
+    # ****************************************************************
+    exposure = ExposureArc()
+    filetype = "FITS"
+    exposure.filetype = exposure.filetypes[filetype]
+    exposure.image.filetype = exposure.filetypes[filetype]
+    exposure.display_image = 0
+    sendimage = SendImage()
+    if lab:
+        exposure.send_image = 1
+        exposure.folder = "/data/vattspec"
+        sendimage.set_remote_imageserver()
+    else:
+        exposure.send_image = 1
+        exposure.folder = "/mnt/TBArray/images"
+        sendimage.set_remote_imageserver(
+            "10.0.1.108", 6543, "dataserver"
+        )  # vattcontrol.vatt
 
-# ****************************************************************
-# telescope
-# ****************************************************************
-telescope = VattTCS()
+    # ****************************************************************
+    # detector
+    # ****************************************************************
+    detector_vattspec = {
+        "name": "vattspec",
+        "description": "STA0520 2688x512 CCD",
+        "ref_pixel": [1344, 256],
+        "format": [2688, 16, 0, 20, 512, 0, 0, 0, 0],
+        "focalplane": [1, 1, 1, 1, "0"],
+        "roi": [1, 2688, 1, 512, 2, 2],
+        "ext_position": [[1, 1]],
+        "jpg_order": [1],
+    }
+    exposure.set_detpars(detector_vattspec)
+    exposure.image.focalplane.wcs.ctype1 = "LINEAR"
+    exposure.image.focalplane.wcs.ctype2 = "LINEAR"
 
-# ****************************************************************
-# system header template
-# ****************************************************************
-template = os.path.join(azcam.db.datafolder, "templates", "fits_template_vattspec_master.txt")
-system = System("vattspec", template)
-system.set_keyword("DEWAR", "vattspec_dewar", "Dewar name")
+    # ****************************************************************
+    # instrument (not used)
+    # ****************************************************************
+    instrument = Instrument()
 
-# ****************************************************************
-# display
-# ****************************************************************
-display = Ds9Display()
+    # ****************************************************************
+    # telescope
+    # ****************************************************************
+    telescope = VattTCS()
 
-# ****************************************************************
-# read par file
-# ****************************************************************
-azcam.db.parameters.read_parfile(parfile)
-azcam.db.parameters.update_pars("azcamserver")
+    # ****************************************************************
+    # system header template
+    # ****************************************************************
+    template = os.path.join(
+        azcam.db.datafolder, "templates", "fits_template_vattspec_master.txt"
+    )
+    system = System("vattspec", template)
+    system.set_keyword("DEWAR", "vattspec_dewar", "Dewar name")
 
-# ****************************************************************
-# define and start command server
-# ****************************************************************
-cmdserver = CommandServer()
-cmdserver.port = 2412
-azcam.log(f"Starting cmdserver - listening on port {cmdserver.port}")
-# cmdserver.welcome_message = "Welcome - azcam-itl server"
-cmdserver.start()
+    # ****************************************************************
+    # display
+    # ****************************************************************
+    display = Ds9Display()
 
-# ****************************************************************
-# web server
-# ****************************************************************
-webserver = WebServer()
-webserver.index = os.path.join(azcam.db.systemfolder, "index_vattspec.html")
-webserver.port = 2403  # common web port
-webserver.start()
-webstatus = Status()
-webstatus.initialize()
+    # ****************************************************************
+    # read par file
+    # ****************************************************************
+    azcam.db.parameters.read_parfile(parfile)
+    azcam.db.parameters.update_pars("azcamserver")
 
-# ****************************************************************
-# azcammonitor
-# ****************************************************************
-monitor = AzCamMonitorInterface()
-monitor.proc_path = "/azcam/azcam-vatt/bin/start_server_vattspec.bat"
-monitor.register()
+    # ****************************************************************
+    # define and start command server
+    # ****************************************************************
+    cmdserver = CommandServer()
+    cmdserver.port = 2412
+    azcam.log(f"Starting cmdserver - listening on port {cmdserver.port}")
+    # cmdserver.welcome_message = "Welcome - azcam-itl server"
+    cmdserver.start()
 
-# ****************************************************************
-# GUIs
-# ****************************************************************
-if 1:
-    import azcam_vattspec.start_azcamtool
+    # ****************************************************************
+    # web server
+    # ****************************************************************
+    webserver = WebServer()
+    webserver.index = os.path.join(azcam.db.systemfolder, "index_vattspec.html")
+    webserver.port = 2403  # common web port
+    webserver.start()
+    webstatus = Status()
+    webstatus.initialize()
 
-# ****************************************************************
-# finish
-# ****************************************************************
-azcam.log("Configuration complete")
+    # ****************************************************************
+    # azcammonitor
+    # ****************************************************************
+    monitor = AzCamMonitorInterface()
+    monitor.proc_path = "/azcam/azcam-vatt/bin/start_server_vattspec.bat"
+    monitor.register()
+
+    # ****************************************************************
+    # GUIs
+    # ****************************************************************
+    if 1:
+        import azcam_vattspec.start_azcamtool
+
+    # try to change window title
+    try:
+        ctypes.windll.kernel32.SetConsoleTitleW("azcamserver")
+    except Exception:
+        pass
+
+    # ****************************************************************
+    # finish
+    # ****************************************************************
+    azcam.log("Configuration complete")
+
+
+setup()
+from azcam.cli import *
