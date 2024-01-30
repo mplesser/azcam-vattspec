@@ -210,12 +210,6 @@ def setup():
     if 1:
         import azcam_vattspec.start_azcamtool
 
-    # try to change window title
-    try:
-        ctypes.windll.kernel32.SetConsoleTitleW("azcamserver")
-    except Exception:
-        pass
-
     # ****************************************************************
     # finish
     # ****************************************************************

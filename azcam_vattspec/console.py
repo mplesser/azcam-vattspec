@@ -93,12 +93,6 @@ def setup():
     azcam.db.parameters.read_parfile(parfile)
     azcam.db.parameters.update_pars("azcamconsole")
 
-    # try to change window title
-    try:
-        ctypes.windll.kernel32.SetConsoleTitleW("azcamconsole")
-    except Exception:
-        pass
-
     # ****************************************************************
     # finish
     # ****************************************************************
