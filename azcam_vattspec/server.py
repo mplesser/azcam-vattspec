@@ -194,7 +194,7 @@ def setup():
     webserver.index = os.path.join(azcam.db.systemfolder, "index_vattspec.html")
     webserver.port = 2403  # common web port
     webserver.start()
-    webstatus = Status()
+    webstatus = Status(webserver)
     webstatus.initialize()
 
     # ****************************************************************
