@@ -16,10 +16,10 @@ from azcam_server.tools.arc.exposure_arc import ExposureArc
 from azcam_server.tools.arc.tempcon_arc import TempConArc
 from azcam_server.tools.ds9display import Ds9Display
 from azcam_server.tools.sendimage import SendImage
-from azcam_webtools.webserver.fastapi_server import WebServer
+from azcam_server.webtools.webserver.fastapi_server import WebServer
 from azcam_server.tools.webtools.status.status import Status
 
-from azcam_monitor.monitorinterface import AzCamMonitorInterface
+from azcam_server.monitor.monitorinterface import AzCamMonitorInterface
 from azcam_vattspec.telescope_vatt import VattTCS
 
 # ****************************************************************
