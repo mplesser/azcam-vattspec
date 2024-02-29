@@ -33,15 +33,7 @@ def setup():
     azcam.db.systemname = "vattspec"
 
     azcam.db.systemfolder = os.path.dirname(__file__)
-
-    if datafolder is None:
-        droot = os.environ.get("AZCAM_DATAROOT")
-        if droot is None:
-            droot = "/data"
-        azcam.db.datafolder = os.path.join(droot, azcam.db.systemname)
-    else:
-        azcam.db.datafolder = datafolder
-    azcam.db.datafolder = azcam.utils.fix_path(azcam.db.datafolder)
+    azcam.db.datafolder = azcam.utils.get_datafolder(datafolder)
 
     parfile = os.path.join(
         azcam.db.datafolder,
