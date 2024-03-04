@@ -7,10 +7,11 @@ import sys
 import threading
 
 import azcam
-import azcam_console
-import azcam_console.shortcuts
-from azcam_console.tools.ds9display import Ds9Display
-from azcam_console.tools.focus import FocusConsole
+import azcam.utils
+import azcam.console
+import azcam.console.shortcuts
+from azcam.console.tools.ds9display import Ds9Display
+from azcam.console.tools.focus import FocusConsole
 
 try:
     i = sys.argv.index("-datafolder")
@@ -58,7 +59,7 @@ def setup():
     # ****************************************************************
     # console tools
     # ****************************************************************
-    from azcam_console.tools import create_console_tools
+    from azcam.console.tools import create_console_tools
 
     create_console_tools()
 
