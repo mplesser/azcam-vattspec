@@ -20,7 +20,7 @@ from azcam.server.tools.sendimage import SendImage
 from azcam.server.webtools.webserver.fastapi_server import WebServer
 from azcam.server.tools.webtools.status.status import Status
 
-from azcam.server.monitor.monitorinterface import AzCamMonitorInterface
+from azcam.monitor.monitorinterface import AzCamMonitorInterface
 from azcam_vattspec.telescope_vatt import VattTCS
 
 # ****************************************************************
