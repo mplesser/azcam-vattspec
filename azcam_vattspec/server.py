@@ -49,8 +49,7 @@ def setup():
     # define folders for system
     # ****************************************************************
     azcam.db.systemname = "vattspec"
-
-    azcam.db.servermode = "vattspec"
+    azcam.db.servermode = azcam.db.systemname
 
     azcam.db.systemfolder = os.path.dirname(__file__)
     azcam.db.systemfolder = azcam.utils.fix_path(azcam.db.systemfolder)
