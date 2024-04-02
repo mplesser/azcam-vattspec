@@ -16,7 +16,6 @@ from azcam.server.tools.arc.controller_arc import ControllerArc
 from azcam.server.tools.arc.exposure_arc import ExposureArc
 from azcam.server.tools.arc.tempcon_arc import TempConArc
 from azcam.server.tools.ds9display import Ds9Display
-from azcam.server.tools.sendimage import SendImage
 from azcam.server.webtools.webserver.fastapi_server import WebServer
 from azcam.server.tools.webtools.status.status import Status
 
@@ -112,15 +111,14 @@ def setup():
     exposure.filetype = exposure.filetypes[filetype]
     exposure.image.filetype = exposure.filetypes[filetype]
     exposure.display_image = 0
-    sendimage = SendImage()
     if lab:
         exposure.send_image = 1
         exposure.folder = "/data/vattspec"
-        sendimage.set_remote_imageserver()
+        exposure.sendimage.set_remote_imageserver()
     else:
         exposure.send_image = 1
         exposure.folder = "/mnt/TBArray/images"
-        sendimage.set_remote_imageserver(
+        exposure.sendimage.set_remote_imageserver(
             "10.0.1.108", 6543, "dataserver"
         )  # vattcontrol.vatt
 
@@ -169,7 +167,7 @@ def setup():
     # read par file
     # ****************************************************************
     azcam.db.parameters.read_parfile(parfile)
-    azcam.db.parameters.update_pars("azcamserver")
+    azcam.db.parameters.update_pars()
 
     # ****************************************************************
     # define and start command server
