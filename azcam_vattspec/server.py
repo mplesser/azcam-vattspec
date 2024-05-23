@@ -129,7 +129,7 @@ def setup():
         "description": "STA0520 2688x512 CCD",
         "ref_pixel": [1344, 256],
         "format": [2688, 16, 0, 20, 512, 0, 0, 0, 0],
-        "focalplane": [1, 1, 1, 1, "0"],
+        "focalplane": [1, 1, 1, 1, [0]],
         "roi": [1, 2688, 1, 512, 2, 2],
         "ext_position": [[1, 1]],
         "jpg_order": [1],
