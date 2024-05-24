@@ -12,7 +12,7 @@ import azcam
 import azcam.utils
 import azcam.exceptions
 from azcam.header import System
-from azcam.server.tools.telescope import Telescope
+from azcam.tools.telescope import Telescope
 
 from .vatt_filter_code import vatt_filters
 
