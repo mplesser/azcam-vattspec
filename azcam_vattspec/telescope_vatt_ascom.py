@@ -64,10 +64,10 @@ class VattTCS(Telescope):
         Initializes the telescope interface.
         """
 
-        if self.initialized:
+        if self.is_initialized:
             return
 
-        if not self.enabled:
+        if not self.is_enabled:
             azcam.exceptions.warning(f"{self.description} is not enabled")
             return
 
@@ -77,7 +77,7 @@ class VattTCS(Telescope):
         # add keywords
         self.define_keywords()
 
-        self.initialized = 1
+        self.is_initialized = 1
 
         return
 
@@ -104,7 +104,7 @@ class VattTCS(Telescope):
         This command will read hardware to obtain the keyword value.
         """
 
-        if not self.enabled:
+        if not self.is_enabled:
             azcam.exceptions.warning(f"{self.description} is not enabled")
             return
 
@@ -191,7 +191,7 @@ class VattTCS(Telescope):
         Offsets telescope in arcsecs.
         """
 
-        if not self.enabled:
+        if not self.is_enabled:
             return ["WARNING", "telescope not enabled"]
 
         command = self.Tserver.make_packet("RADECGUIDE %s %s" % (RA, Dec))
@@ -209,7 +209,7 @@ class VattTCS(Telescope):
         Moves telescope to an absolute RA,DEC position.
         """
 
-        if not self.enabled:
+        if not self.is_enabled:
             return ["WARNING", "telescope not enabled"]
 
         if self.DEBUG == 1:
@@ -246,7 +246,7 @@ class VattTCS(Telescope):
 
         azcam.log("move_start command received:%s %s" % (RA, Dec))
 
-        if not self.enabled:
+        if not self.is_enabled:
             azcam.exceptions.warning("telescope not enabled")
             return
 
@@ -276,7 +276,7 @@ class VattTCS(Telescope):
         Wait for telescope to stop moving.
         """
 
-        if not self.enabled:
+        if not self.is_enabled:
             azcam.exceptions.warning("telescope not enabled")
             return
 

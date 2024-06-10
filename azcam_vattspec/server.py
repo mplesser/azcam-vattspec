@@ -16,7 +16,7 @@ from azcam.tools.arc.controller_arc import ControllerArc
 from azcam.tools.arc.exposure_arc import ExposureArc
 from azcam.tools.arc.tempcon_arc import TempConArc
 from azcam.tools.ds9display import Ds9Display
-from azcam.webtools.webserver.fastapi_server import WebServer
+from azcam.webtools.webserver import WebServer
 from azcam.webtools.status.status import Status
 
 from azcam.monitor.monitorinterface import AzCamMonitorInterface
