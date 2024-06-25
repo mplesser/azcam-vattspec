@@ -1,7 +1,7 @@
 [project]
 name = "azcam-vattspec"
 version = "24.0"
-description = "Azcam extension for VATT VattSpec facility camera"
+description = "Azcam environment for VATT VattSpec facility camera"
 license = { file = "LICENSE" }
 readme = "README.md"
 requires-python = ">=3.10"
