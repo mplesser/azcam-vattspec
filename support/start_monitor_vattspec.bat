@@ -1,3 +1,3 @@
 @echo off
 
-start/min "azcammonitor" python -m azcam_server.monitor.azcammonitor.py -configfile parameters_vattspec_monitor.ini
+start/min "azcammonitor" python -m azcam.monitor -configfile "../parameters_vattspec_monitor.ini"
