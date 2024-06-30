@@ -191,7 +191,7 @@ def setup():
     # azcammonitor
     # ****************************************************************
     azcam.db.monitor.proc_path = (
-        "/azcam/azcam-vattspec/support/start_server_vattspec.bat"
+        "/azcam/azcam-vattspec/support/start_server_vattspec.py"
     )
     azcam.db.monitor.register()
 
