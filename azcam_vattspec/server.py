@@ -21,28 +21,26 @@ from azcam.webtools.status.status import Status
 
 from azcam_vattspec.telescope_vatt import VattTCS
 
-# ****************************************************************
-# parse command line arguments
-# ****************************************************************
-try:
-    i = sys.argv.index("-system")
-    option = sys.argv[i + 1]
-except ValueError:
-    option = "menu"
-try:
-    i = sys.argv.index("-datafolder")
-    datafolder = sys.argv[i + 1]
-except ValueError:
-    datafolder = None
-try:
-    i = sys.argv.index("-lab")
-    lab = 1
-except ValueError:
-    lab = 0
-
 
 def setup():
-    global option, datafolder, lab
+    # ****************************************************************
+    # parse command line arguments
+    # ****************************************************************
+    try:
+        i = sys.argv.index("-system")
+        option = sys.argv[i + 1]
+    except ValueError:
+        option = "menu"
+    try:
+        i = sys.argv.index("-datafolder")
+        datafolder = sys.argv[i + 1]
+    except ValueError:
+        datafolder = None
+    try:
+        i = sys.argv.index("-lab")
+        lab = 1
+    except ValueError:
+        lab = 0
 
     # ****************************************************************
     # define folders for system
