@@ -18,14 +18,14 @@ from azcam.tools.arc.tempcon_arc import TempConArc
 from azcam.tools.ds9display import Ds9Display
 from azcam.webtools.webserver import WebServer
 from azcam.webtools.status.status import Status
+from azcam.webtools.exptool.exptool import Exptool
 
 from azcam_vattspec.telescope_vatt import VattTCS
 
 
 def setup():
-    # ****************************************************************
+
     # parse command line arguments
-    # ****************************************************************
     try:
         i = sys.argv.index("-system")
         option = sys.argv[i + 1]
@@ -42,9 +42,7 @@ def setup():
     except ValueError:
         lab = 0
 
-    # ****************************************************************
     # define folders for system
-    # ****************************************************************
     azcam.db.systemname = "vattspec"
     azcam.db.servermode = azcam.db.systemname
 
@@ -58,16 +56,12 @@ def setup():
         f"parameters_server_{azcam.db.systemname}.ini",
     )
 
-    # ****************************************************************
     # enable logging
-    # ****************************************************************
     logfile = os.path.join(azcam.db.datafolder, "logs", "server.log")
     azcam.db.logger.start_logging(logfile=logfile)
     azcam.log(f"Configuring for vattspec")
 
-    # ****************************************************************
     # controller
-    # ****************************************************************
     controller = ControllerArc()
     controller.timing_board = "gen2"
     controller.clock_boards = ["gen2"]
@@ -90,18 +84,14 @@ def setup():
     else:
         controller.camserver.set_server("vattccdc", 2405)
 
-    # ****************************************************************
     # temperature controller
-    # ****************************************************************
     tempcon = TempConArc()
     tempcon.set_calibrations([0, 0, 3])
     tempcon.set_corrections([2.0, 0.0, 0.0], [1.0, 1.0, 1.0])
     tempcon.temperature_correction = 0
     tempcon.control_temperature = -110.0
 
-    # ****************************************************************
     # exposure
-    # ****************************************************************
     exposure = ExposureArc()
     filetype = "FITS"
     exposure.filetype = exposure.filetypes[filetype]
@@ -118,9 +108,7 @@ def setup():
             "10.0.1.108", 6543, "dataserver"
         )  # vattcontrol.vatt
 
-    # ****************************************************************
     # detector
-    # ****************************************************************
     detector_vattspec = {
         "name": "vattspec",
         "description": "STA0520 2688x512 CCD",
@@ -135,73 +123,52 @@ def setup():
     exposure.image.focalplane.wcs.ctype1 = "LINEAR"
     exposure.image.focalplane.wcs.ctype2 = "LINEAR"
 
-    # ****************************************************************
     # instrument (not used)
-    # ****************************************************************
     instrument = Instrument()
 
-    # ****************************************************************
     # telescope
-    # ****************************************************************
     telescope = VattTCS()
 
-    # ****************************************************************
     # system header template
-    # ****************************************************************
     template = os.path.join(
         azcam.db.datafolder, "templates", "fits_template_vattspec_master.txt"
     )
     system = System("vattspec", template)
     system.set_keyword("DEWAR", "vattspec_dewar", "Dewar name")
 
-    # ****************************************************************
     # display
-    # ****************************************************************
     display = Ds9Display()
     display.initialize()
 
-    # ****************************************************************
     # read par file
-    # ****************************************************************
     azcam.db.parameters.read_parfile(parfile)
     azcam.db.parameters.update_pars()
 
-    # ****************************************************************
     # define and start command server
-    # ****************************************************************
     cmdserver = CommandServer()
     cmdserver.port = 2412
     azcam.log(f"Starting cmdserver - listening on port {cmdserver.port}")
     azcam.db.tools["api"].initialize_api()
     cmdserver.start()
 
-    # ****************************************************************
     # web server
-    # ****************************************************************
     webserver = WebServer()
     webserver.index = os.path.join(azcam.db.systemfolder, "index_vattspec.html")
-    webserver.port = 2403  # common web port
+    webserver.port = 2413
     webserver.start()
     webstatus = Status(webserver)
     webstatus.initialize()
+    exptool = Exptool(webserver)
+    exptool.initialize()
 
-    # ****************************************************************
     # azcammonitor
-    # ****************************************************************
-    azcam.db.monitor.proc_path = (
-        "/azcam/azcam-vattspec/support/start_server_vattspec.py"
-    )
     azcam.db.monitor.register()
 
-    # ****************************************************************
     # GUIs
-    # ****************************************************************
     if 1:
         import azcam_vattspec.start_azcamtool
 
-    # ****************************************************************
     # finish
-    # ****************************************************************
     azcam.log("Configuration complete")
 
 

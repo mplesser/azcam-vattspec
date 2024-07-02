@@ -1,5 +1,6 @@
 # start AzCamTool
 import os
+import subprocess
 
 import azcam
 
@@ -13,6 +14,12 @@ else:
 
 if exe is None:
     exe = "c:\\azcam\\azcam-tool\\azcam_tool\\builds\\azcamtool.exe"
+
+
 s = f"start {exe} -s localhost -p {cmdport}"
 
-os.system(s)
+if 0:
+    os.system(s)
+else:
+    p1 = subprocess.Popen(s, shell=True)
+    p1.wait()
