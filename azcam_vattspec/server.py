@@ -20,7 +20,8 @@ from azcam.webtools.webserver import WebServer
 from azcam.webtools.status.status import Status
 from azcam.webtools.exptool.exptool import Exptool
 
-from azcam_vattspec.telescope_vatt import VattTCS
+# from azcam_vatt4k.telescope_vatt import VattTCS
+from azcam_vatt4k.telescope_vatt_ascom import VattAscom
 
 
 def setup():
@@ -122,12 +123,18 @@ def setup():
     exposure.set_detpars(detector_vattspec)
     exposure.image.focalplane.wcs.ctype1 = "LINEAR"
     exposure.image.focalplane.wcs.ctype2 = "LINEAR"
-
+    exposure.image.focalplane.gains = [
+        1.0,
+    ]
+    exposure.image.focalplane.rdnoises = [4.0]
+ 
     # instrument (not used)
     instrument = Instrument()
 
     # telescope
-    telescope = VattTCS()
+    telescope = VattAscom()
+    if 0:
+        telescope.initialize()
 
     # system header template
     template = os.path.join(
