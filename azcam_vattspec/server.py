@@ -16,9 +16,7 @@ from azcam.tools.arc.controller_arc import ControllerArc
 from azcam.tools.arc.exposure_arc import ExposureArc
 from azcam.tools.arc.tempcon_arc import TempConArc
 from azcam.tools.ds9display import Ds9Display
-from azcam.webtools.webserver import WebServer
-from azcam.webtools.status.status import Status
-from azcam.webtools.exptool.exptool import Exptool
+from azcam.web.webserver_dash import WebServer
 
 # from azcam_vatt4k.telescope_vatt import VattTCS
 from azcam_vatt4k.telescope_vatt_ascom import VattAscom
@@ -133,8 +131,8 @@ def setup():
 
     # telescope
     telescope = VattAscom()
-    if 0:
-        telescope.initialize()
+    telescope.verbosity=0
+    telescope.initialize()
 
     # system header template
     template = os.path.join(
@@ -160,13 +158,10 @@ def setup():
 
     # web server
     webserver = WebServer()
-    webserver.index = os.path.join(azcam.db.systemfolder, "index_vattspec.html")
     webserver.port = 2413
+    webserver.logcommands = 1
+    webserver.logstatus = 0
     webserver.start()
-    webstatus = Status(webserver)
-    webstatus.initialize()
-    exptool = Exptool(webserver)
-    exptool.initialize()
 
     # azcammonitor
     azcam.db.monitor.register()
