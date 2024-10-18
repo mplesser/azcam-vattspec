@@ -16,7 +16,7 @@ from azcam.tools.arc.controller_arc import ControllerArc
 from azcam.tools.arc.exposure_arc import ExposureArc
 from azcam.tools.arc.tempcon_arc import TempConArc
 from azcam.tools.ds9display import Ds9Display
-from azcam.web.webserver_dash import WebServer
+from azcam.web.webserver_main import WebServer
 
 # from azcam_vatt4k.telescope_vatt import VattTCS
 from azcam_vatt4k.telescope_vatt_ascom import VattAscom
@@ -125,13 +125,13 @@ def setup():
         1.0,
     ]
     exposure.image.focalplane.rdnoises = [4.0]
- 
+
     # instrument (not used)
     instrument = Instrument()
 
     # telescope
     telescope = VattAscom()
-    telescope.verbosity=0
+    telescope.verbosity = 0
     telescope.initialize()
 
     # system header template
