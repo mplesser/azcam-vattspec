@@ -1,5 +1,7 @@
 """
-azcamconsole config for vattspec
+Setup method for vattspec console.
+Usage example:
+  ipython -i -m azcam_vattspec.console --profile azcamconsole
 """
 
 import os
@@ -9,24 +11,18 @@ import threading
 import azcam
 import azcam.utils
 import azcam_console.console
+from azcam_console.tools import create_console_tools
 import azcam_console.shortcuts
 from azcam.tools.ds9display import Ds9Display
 from azcam_console.tools.focus import FocusConsole
 
-try:
-    i = sys.argv.index("-datafolder")
-    datafolder = sys.argv[i + 1]
-except ValueError:
-    datafolder = None
-try:
-    i = sys.argv.index("-lab")
-    lab = 1
-except ValueError:
-    lab = 0
-
 
 def setup():
-    global datafolder, lab
+    try:
+        i = sys.argv.index("-datafolder")
+        datafolder = sys.argv[i + 1]
+    except ValueError:
+        datafolder = None
 
     # ****************************************************************
     # files and folders
@@ -59,8 +55,6 @@ def setup():
     # ****************************************************************
     # console tools
     # ****************************************************************
-    from azcam_console.tools import create_console_tools
-
     create_console_tools()
 
     # ****************************************************************
@@ -94,3 +88,5 @@ def setup():
 
 setup()
 from azcam_console.cli import *
+
+del setup
