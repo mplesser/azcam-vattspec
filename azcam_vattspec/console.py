@@ -67,8 +67,7 @@ def setup():
     # ****************************************************************
     # try to connect to azcamserver
     # ****************************************************************
-    server = azcam.db.tools["server"]
-    connected = server.connect(port=2412)
+    connected = azcam.db.server.connect(port=2412)
     if connected:
         azcam.log("Connected to azcamserver")
     else:
